@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #032533, #02121c);
+  color: #fff;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: #fff;
+  color: #000;
+  padding: 20px 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+}
+
+.card h1 { margin-bottom: 10px; }
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+button {
+  background: #2ecc71;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+button:hover { background: #27ae60; }
+
+/* Seat system */
+.container { perspective: 1000px; margin: 20px 0; }
+.seat {
+  background: #444451;
+  height: 26px;
+  width: 32px;
+  margin: 3px;
+  border-radius: 6px 6px 0 0;
+  transition: 0.2s;
+}
+.seat.selected { background: #2ecc71; }
+.seat.sold { background: #fff; }
+.seat:not(.sold):hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px #2ecc71;
+  cursor: pointer;
+}
+
+.row { display: flex; justify-content: center; flex-wrap: wrap; }
+.screen {
+  background: #fff;
+  height: 80px;
+  width: 100%;
+  margin: 15px 0;
+  transform: rotateX(-58deg);
+  box-shadow: 0 3px 10px rgba(255,255,255,0.7);
+}
+.showcase {
+  display: flex; justify-content: center; list-style: none; padding: 0;
+}
+.showcase li { display: flex; align-items: center; margin: 0 10px; }
+.showcase li small { margin-left: 5px; }

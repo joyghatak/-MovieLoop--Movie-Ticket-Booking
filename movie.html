@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Movie</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="centered">
+  <div class="card">
+    <h1>Choose Your Movie</h1>
+
+    <form onsubmit="saveMovie(event)">
+      <label for="movie">Select a movie:</label>
+      <select id="movie" name="movie" required>
+
+        <!-- 🎬 Action -->
+        <optgroup label="🎬 Action">
+          <option value="220">War 2 (₹220)</option>
+          <option value="200">Coolie (₹200)</option>
+          <option value="250">Game Changer (₹250)</option>
+          <option value="230">Sikandar (₹230)</option>
+          <option value="240">Deva (₹240)</option>
+        </optgroup>
+
+        <!-- 🕵️‍♂️ Thriller -->
+        <optgroup label="🕵️‍♂️ Thriller">
+          <option value="210">Identity (₹210)</option>
+          <option value="200">Officer on Duty (₹200)</option>
+          <option value="220">Dragon (₹220)</option>
+          <option value="190">Rekhachithram (₹190)</option>
+          <option value="230">Fateh (₹230)</option>
+        </optgroup>
+
+        <!-- 😂 Comedy -->
+        <optgroup label="😂 Comedy">
+          <option value="180">Housefull 5 (₹180)</option>
+          <option value="170">Jolly LLB 3 (₹170)</option>
+          <option value="160">Welcome to the Jungle (₹160)</option>
+          <option value="150">Ghich Pich (₹150)</option>
+          <option value="140">Run Bhola Run (₹140)</option>
+        </optgroup>
+
+        <!-- 💖 Romantic -->
+        <optgroup label="💖 Romantic">
+          <option value="250">Saiyaara (₹250)</option>
+          <option value="240">Param Sundari (₹240)</option>
+          <option value="230">Dhadak 2 (₹230)</option>
+          <option value="220">Aankhon Ki Gustaakhiyan (₹220)</option>
+          <option value="260">Love In Vietnam (₹260)</option>
+        </optgroup>
+
+        <!-- 👻 Horror -->
+        <optgroup label="👻 Horror">
+          <option value="260">Nikita Roy (₹260)</option>
+          <option value="250">Maa (₹250)</option>
+          <option value="240">Kapkapiii (₹240)</option>
+          <option value="230">The Bhootnii (₹230)</option>
+          <option value="220">Abba Dabba Jabba (₹220)</option>
+        </optgroup>
+
+        <!-- 🌀 Mixed Genre -->
+        <optgroup label="🌀 Mixed Genre">
+          <option value="210">Mrs. (₹210)</option>
+          <option value="200">Bokshi (₹200)</option>
+          <option value="190">Tourist Family (₹190)</option>
+          <option value="220">Dragon (₹220)</option>
+          <option value="230">Chhaava (₹230)</option>
+        </optgroup>
+
+        <!-- 📚 Educational / Social -->
+        <optgroup label="📚 Educational / Social">
+          <option value="180">Sitaare Zameen Par (₹180)</option>
+          <option value="170">Court – State vs. A Nobody (₹170)</option>
+          <option value="160">Mrs. (₹160)</option>
+        </optgroup>
+
+        <!-- 🏆 Sports -->
+        <optgroup label="🏆 Sports">
+          <option value="200">Gymkhana (₹200)</option>
+          <option value="190">Maqam (₹190)</option>
+          <option value="220">Chandu Champion (₹220)</option>
+          <option value="210">Mr. & Mrs. Mahi (₹210)</option>
+        </optgroup>
+
+        <!-- 🌌 Anime / Fantasy -->
+        <optgroup label="🌌 Anime / Fantasy">
+          <option value="450">Ramayana: Legend of Prince Rama (₹450)</option>
+          <option value="400">Demon Slayer: Infinity Castle (₹400)</option>
+          <option value="420">Chainsaw Man: Reze Arc (₹420)</option>
+          <option value="380">Shin-chan: Our Dinosaur Diary (₹380)</option>
+          <option value="390">Kaiju No. 8: Mission Recon (₹390)</option>
+        </optgroup>
+
+      </select>
+
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+
+  <script>
+    function saveMovie(e) {
+      e.preventDefault();
+
+      const movieSelect = document.getElementById("movie");
+      localStorage.setItem("selectedMovieIndex", movieSelect.selectedIndex);
+      localStorage.setItem("selectedMoviePrice", movieSelect.value);
+      localStorage.setItem("selectedMovieName", movieSelect.options[movieSelect.selectedIndex].text);
+
+      window.location.href = "seats.html";
+    }
+  </script>
+</body>
+</html>

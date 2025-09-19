@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Confirmation</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="centered">
+  <div class="card">
+    <h1>✅ Booking Confirmed</h1>
+    <p><strong>Name:</strong> <span id="confName">Loading...</span></p>
+    <p><strong>Email:</strong> <span id="confEmail">Loading...</span></p>
+    <p><strong>Movie:</strong> <span id="confMovie">Loading...</span></p>
+    <p><strong>Seats:</strong> <span id="confSeats">0</span></p>
+    <p><strong>Total Price:</strong> ₹<span id="confTotal">0</span></p>
+    <button id="downloadBtn">Download Ticket (PDF)</button>
+  </div>
+
+  <script>
+    const name = localStorage.getItem("username") || "N/A";
+    const email = localStorage.getItem("useremail") || "N/A";
+    const movieName = localStorage.getItem("selectedMovieName") || "N/A";
+    const seatArray = JSON.parse(localStorage.getItem("selectedSeats")) || [];
+    const ticketPrice = parseInt(localStorage.getItem("selectedMoviePrice")) || 0;
+    const totalPrice = seatArray.length * ticketPrice;
+
+    // Update DOM
+    document.getElementById("confName").innerText = name;
+    document.getElementById("confEmail").innerText = email;
+    document.getElementById("confMovie").innerText = movieName;
+    document.getElementById("confSeats").innerText = seatArray.length;
+    document.getElementById("confTotal").innerText = totalPrice;
+
+    // Save total price for future use
+    localStorage.setItem("bookingTotal", totalPrice);
+
+    // PDF Download
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Header
+      doc.setFillColor(30, 30, 120);
+      doc.rect(0, 0, 210, 30, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.setFont("helvetica", "bold");
+      doc.text("🎟️ Movie Ticket Confirmation", 20, 20);
+
+      // Body
+      doc.setTextColor(0, 0, 0);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      let y = 50;
+      doc.text(`Name: ${name}`, 20, y);
+      doc.text(`Email: ${email}`, 20, y + 10);
+      doc.text(`Movie: ${movieName}`, 20, y + 20);
+      doc.text(`Seats Booked: ${seatArray.length}`, 20, y + 30);
+      doc.text(`Seat Numbers: ${seatArray.join(", ") || "N/A"}`, 20, y + 40);
+
+      // Total Price
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.text(`Total Price: ₹${totalPrice}`, 20, y + 55);
+
+      // Footer
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(10);
+      doc.text("Thank you for booking with MovieVerse!", 20, y + 75);
+      doc.text("Enjoy your show 🍿", 20, y + 85);
+      doc.text(`Date: ${new Date().toLocaleDateString()}`, 150, y + 85);
+
+      // Save PDF
+      const safeName = movieName.replace(/\s+/g, "_").replace(/[^\w]/g, "");
+      doc.save(`Ticket_${safeName}.pdf`);
+    });
+  </script>
+</body>
+</html>
