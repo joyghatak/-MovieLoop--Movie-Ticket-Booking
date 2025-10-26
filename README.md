@@ -3,9 +3,6 @@
 A simple, clean, and interactive front-end web application for booking movie tickets. This project allows users to select a movie, choose their seats from an interactive layout, and get a confirmation with a downloadable PDF ticket.
 
 **Live Demo:** [Link to your live project on GitHub Pages or Netlify]
-
----
-
 ### 🍿 Features
 
 * **User Login:** Simple login page to capture user name and email.
@@ -23,7 +20,6 @@ A simple, clean, and interactive front-end web application for booking movie tic
 * **HTML5:** For the structure and content of the web pages.
 * **CSS3:** For styling, including Flexbox for layout and custom properties for a modern look.
 * **JavaScript (ES6+):** For all the client-side logic, interactivity, and state management.
-* **Browser `localStorage`:** To persist data across different pages without a backend.
 * **jsPDF Library:** An external library used to generate the PDF ticket on the client-side.
 
 ---
