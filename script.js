@@ -1,5 +1,5 @@
 // --- FIX: Use explicit base URL for API calls to prevent network errors ---
-const API_BASE_URL = 'http://localhost:5500/api';
+const API_BASE_URL = 'https://movieloop-backend.onrender.com/api';
 
 const container = document.querySelector(".container");
 const seats = document.querySelectorAll(".row .seat:not(.sold)");
@@ -144,4 +144,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 populateUI();
+
 updateSelectedCount();
