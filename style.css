@@ -44,8 +44,30 @@ button {
   font-weight: 600;
   cursor: pointer;
   border: none;
+  transition: background 0.2s;
 }
 button:hover { background: #27ae60; }
+
+/* Message Box for API responses */
+.message-box {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: #000;
+}
+.message-box.success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+.message-box.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
 
 /* Seat system */
 .container { perspective: 1000px; margin: 20px 0; }

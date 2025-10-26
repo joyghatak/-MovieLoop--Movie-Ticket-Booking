@@ -12,7 +12,6 @@
     <h1>✅ Booking Confirmed</h1>
     <p><strong>Booking ID:</strong> <span id="confId">Loading...</span></p>
     <p><strong>Name:</strong> <span id="confName">Loading...</span></p>
-    <p><strong>Email:</strong> <span id="confEmail">Loading...</span></p>
     <p><strong>Movie:</strong> <span id="confMovie">Loading...</span></p>
     <p><strong>Seats Count:</strong> <span id="confSeats">0</span></p>
     <p><strong>Price Per Seat:</strong> ₹<span id="confPricePerSeat">0</span></p>
@@ -22,22 +21,20 @@
   </div>
 
   <script>
-    // Data retrieved from localStorage, populated after successful API call or login
+    // Data retrieved from localStorage, populated after successful API call in script.js
     const bookingId = localStorage.getItem("bookingId") || "N/A";
     const name = localStorage.getItem("username") || "N/A";
-    const email = localStorage.getItem("useremail") || "N/A"; 
     const movieName = localStorage.getItem("selectedMovieName") || "N/A"; 
     const seatsCount = localStorage.getItem("confSeats") || 0; 
-    const ticketPrice = parseInt(localStorage.getItem("selectedMoviePrice")) || 0; 
+    const ticketPrice = parseInt(localStorage.getItem("selectedMoviePrice")) || 0; // Price per seat
     const totalPrice = localStorage.getItem("confTotal") || 0; 
 
     // Data needed for PDF generation
-    const seatArray = JSON.parse(localStorage.getItem("selectedSeats")) || []; 
+    const seatArray = JSON.parse(localStorage.getItem("selectedSeats")) || []; // Dummy seats from script.js
 
     // Update DOM
     document.getElementById("confId").innerText = bookingId;
     document.getElementById("confName").innerText = name;
-    document.getElementById("confEmail").innerText = email;
     document.getElementById("confMovie").innerText = movieName;
     document.getElementById("confSeats").innerText = seatsCount;
     document.getElementById("confPricePerSeat").innerText = ticketPrice;
@@ -54,8 +51,7 @@
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(18);
       doc.setFont("helvetica", "bold");
-      // FIX 1: Removed Emojis from Header
-      doc.text("Movie Ticket Confirmation", 20, 20);
+      doc.text("🎟️ Movie Ticket Confirmation", 20, 20);
 
       // Body
       doc.setTextColor(0, 0, 0);
@@ -64,26 +60,22 @@
       let y = 50;
       doc.text(`Booking ID: ${bookingId}`, 20, y);
       doc.text(`Name: ${name}`, 20, y + 10);
-      doc.text(`Email: ${email}`, 20, y + 20);
-      doc.text(`Movie: ${movieName}`, 20, y + 30);
-      doc.text(`Seats Booked: ${seatsCount}`, 20, y + 40);
-      // FIX 2: Used 'Rs' instead of '₹' symbol
-      doc.text(`Price per Seat: Rs. ${ticketPrice}`, 20, y + 50); 
-      doc.text(`Seat Numbers: ${seatArray.join(", ") || "N/A"}`, 20, y + 60);
+      doc.text(`Movie: ${movieName}`, 20, y + 20);
+      doc.text(`Seats Booked: ${seatsCount}`, 20, y + 30);
+      doc.text(`Price per Seat: ₹${ticketPrice}`, 20, y + 40);
+      doc.text(`Seat Numbers: ${seatArray.join(", ") || "N/A"}`, 20, y + 50);
 
       // Total Price
       doc.setFont("helvetica", "bold");
       doc.setFontSize(14);
-      // FIX 3: Used 'Rs' instead of '₹' symbol
-      doc.text(`TOTAL PAID: Rs. ${totalPrice}`, 20, y + 75); 
+      doc.text(`TOTAL PAID: ₹${totalPrice}`, 20, y + 65);
 
       // Footer
       doc.setFont("helvetica", "italic");
       doc.setFontSize(10);
-      doc.text("Thank you for booking with MovieLoop!", 20, y + 95);
-      // FIX 4: Removed Emoji from Footer
-      doc.text("Enjoy your show", 20, y + 105); 
-      doc.text(`Date: ${new Date().toLocaleDateString()}`, 150, y + 105);
+      doc.text("Thank you for booking with MovieLoop!", 20, y + 85);
+      doc.text("Enjoy your show 🍿", 20, y + 95);
+      doc.text(`Date: ${new Date().toLocaleDateString()}`, 150, y + 95);
 
       // Save PDF
       const safeName = movieName.replace(/\s+/g, "_").replace(/[^\w]/g, "");

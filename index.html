@@ -3,48 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Movie Ticket Booking</title>
+  <title>Auth - Movie Ticket Booking</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="centered">
   <div class="card">
-    <h1>🎬 Welcome
-        MovieLoop🍿🍿
-    </h1>
-    <p>Please login to continue</p>
+    <h1>🎬 MovieLoop 🍿🍿</h1>
+    <p id="authPrompt">Please login to continue</p>
+    <div id="messageBox" class="message-box" style="display: none;"></div>
 
-    <!-- ✅ No action, we handle redirect in JS -->
+    <!-- Login Form -->
     <form id="loginForm">
-      <label for="username">Name:</label>
-      <input type="text" id="username" placeholder="Enter your name" required />
+      <h2>Login</h2>
+      <label for="login-username">Username:</label>
+      <input type="text" id="login-username" placeholder="Enter your username" required />
 
-      <label for="useremail">Email:</label>
-      <input type="email" id="useremail" placeholder="Enter your email" required />
+      <label for="login-password">Password:</label>
+      <input type="password" id="login-password" placeholder="Enter your password" required />
 
       <button type="submit">Login</button>
+      <p>Don't have an account? <a href="#" id="showRegister">Register here</a></p>
+    </form>
+
+    <!-- Register Form (Initially Hidden) -->
+    <form id="registerForm" style="display: none;">
+      <h2>Register</h2>
+      <label for="register-username">Username:</label>
+      <input type="text" id="register-username" placeholder="Choose a username" required />
+      
+      <label for="register-email">Email:</label>
+      <input type="email" id="register-email" placeholder="Enter your email" required />
+
+      <label for="register-password">Password:</label>
+      <input type="password" id="register-password" placeholder="Choose a secure password" required />
+
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="#" id="showLogin">Login here</a></p>
     </form>
   </div>
 
   <script>
-    // ✅ Attach event to form
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault(); // stop default submit
+    // --- FIX: Use explicit base URL for API calls to prevent network errors ---
+    const API_BASE_URL = 'http://localhost:5500/api';
+    
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const showRegisterLink = document.getElementById("showRegister");
+    const showLoginLink = document.getElementById("showLogin");
+    const messageBox = document.getElementById("messageBox");
 
-      const name = document.getElementById("username").value.trim();
-      const email = document.getElementById("useremail").value.trim();
+    function displayMessage(message, type = 'success') {
+      messageBox.textContent = message;
+      messageBox.className = `message-box ${type}`;
+      messageBox.style.display = 'block';
+      setTimeout(() => {
+        messageBox.style.display = 'none';
+      }, 5000);
+    }
 
-      if (name && email) {
-        // Save in localStorage
-        localStorage.setItem("username", name);
-        localStorage.setItem("useremail", email);
-
-        // ✅ Redirect to movies.html
-        window.location.href = "movie.html";
-      } else {
-        alert("Please fill in all fields!");
-      }
-      
+    showRegisterLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
+      document.getElementById("authPrompt").textContent = "Please register to continue";
     });
+
+    showLoginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      registerForm.style.display = 'none';
+      loginForm.style.display = 'block';
+      document.getElementById("authPrompt").textContent = "Please login to continue";
+    });
+
+    // Handle Login
+    loginForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem("username", username);
+          localStorage.setItem("useremail", data.email); 
+          displayMessage(data.message);
+          
+          localStorage.removeItem("selectedMovieId");
+          localStorage.removeItem("selectedSeats");
+          window.location.href = "movie.html";
+        } else {
+          displayMessage(data.message || 'Login failed.', 'error');
+        }
+      } catch (error) {
+        displayMessage('Network error. Could not connect to the server. Check your terminal.', 'error');
+      }
+    });
+
+    // Handle Registration
+    registerForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const username = document.getElementById("register-username").value.trim();
+      const password = document.getElementById("register-password").value.trim();
+      const email = document.getElementById("register-email").value.trim();
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, email })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          displayMessage(data.message + " Please log in now.");
+          showLoginLink.click();
+          document.getElementById("login-username").value = username;
+        } else {
+          displayMessage(data.message || 'Registration failed.', 'error');
+        }
+      } catch (error) {
+        displayMessage('Network error. Could not connect to the server. Check your terminal.', 'error');
+      }
+    });
+
   </script>
 </body>
 </html>

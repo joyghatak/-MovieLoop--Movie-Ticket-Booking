@@ -23,7 +23,7 @@
   </div>
 
   <script>
-    // --- FIX: Use explicit base URL for API calls to prevent network errors ---
+    // --- Configuration: Set explicit base URL for API calls ---
     const API_BASE_URL = 'http://localhost:5500/api';
 
     const movieSelect = document.getElementById("movie");
@@ -50,6 +50,7 @@
       }
 
       try {
+        // --- UPDATED API URL ---
         const response = await fetch(`${API_BASE_URL}/movies`);
         if (!response.ok) throw new Error('Failed to fetch movies');
 

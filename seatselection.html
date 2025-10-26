@@ -14,11 +14,13 @@
     <ul class="showcase">
       <li><div class="seat"></div><small>Available</small></li>
       <li><div class="seat selected"></div><small>Selected</small></li>
+      <!-- Note: Real apps fetch sold seats from the server -->
       <li><div class="seat sold"></div><small>Sold</small></li>
     </ul>
 
     <div class="container">
       <div class="screen"></div>
+      <!-- Increased the number of seats to make the selection more realistic -->
       <div class="row">
         <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
         <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat"></div>
@@ -47,6 +49,7 @@
       <span id="pricePerSeat">(@ ₹--/seat)</span>
     </p>
 
+    <!-- Changed link to button with ID for JS event listener -->
     <button id="book-now-btn">Book Now</button>
     <a href="movie.html" style="font-size: small; color: #3498db; margin-top: 10px; display: block;">Change Movie</a>
   </div>
